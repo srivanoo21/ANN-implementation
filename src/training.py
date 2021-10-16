@@ -2,6 +2,7 @@ from src.utils.common import read_config
 from src.utils.data_mgmt import get_data
 from src.utils.model import create_model, save_model
 import argparse
+import os
 
 def training(config_path):
     config = read_config(config_path)
@@ -21,12 +22,14 @@ def training(config_path):
 
     history = model.fit(X_train, y_train, epochs=EPOCHS,
                         validation_data=VALIDATION_SET)
+
+    # Fetching the path for the model
     artifacts_dir = config["artifacts"]["artifacts_dir"]
     model_dir = config["artifacts"]["model_dir"]
 
+    # saving the model
     model_dir_path = os.path.join(artifacts_dir, model_dir)
     os.makedirs(model_dir_path, exist_ok=True)
-
     model_name = config["artifacts"]["model_name"]
 
     save_model(model, model_name, model_dir_path)
