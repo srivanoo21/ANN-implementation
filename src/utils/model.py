@@ -11,13 +11,10 @@ def create_model(LOSS_FUNCTION, OPTIMIZER, METRICS, NUM_CLASSES):
           tf.keras.layers.Dense(NUM_CLASSES, activation="softmax", name="outputLayer")]
 
     model_clf = tf.keras.models.Sequential(LAYERS)
-
     model_clf.summary()
-
     model_clf.compile(loss=LOSS_FUNCTION,
                   optimizer=OPTIMIZER,
                   metrics=METRICS)
-
 
     return model_clf ## untrained model
 
@@ -25,6 +22,7 @@ def create_model(LOSS_FUNCTION, OPTIMIZER, METRICS, NUM_CLASSES):
 def get_unique_filename(filename):
     unique_filename = time.strftime(f"%Y%m%d_%H%M%S_{filename}")
     return unique_filename
+
 
 def save_model(model, model_name, model_dir):
     unique_filename = get_unique_filename(model_name)
@@ -39,3 +37,11 @@ def save_plot(df, plot_name, plot_dir):
     plt.grid(True)
     plt.savefig(path_to_plot)
 
+
+def get_log_path(log_name, logs_dir):
+  uniqueName = get_unique_filename(log_name)
+  logs_dir = os.path.join(logs_dir, log_name)
+  log_path = os.path.join(logs_dir, uniqueName)
+  print(f"savings logs at: {log_path}")
+
+  return log_path

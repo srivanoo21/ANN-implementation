@@ -1,11 +1,13 @@
 params:
-  epochs: 10
+  epochs: 1
   batch_size: 32
   num_classes: 10
   loss_function: sparse_categorical_crossentropy
   metrics: accuracy
   optimizer: SGD
   validation_datasize: 5000
+  model_ckpt: model_ckpt.h5
+  patience: 5
   
 
 artifacts:
@@ -15,6 +17,7 @@ artifacts:
   checkpoint_dir: checkpoints
   model_name: model.h5
   plot_name: history_plot
+  log_name_1: fit
 
 
 logs:

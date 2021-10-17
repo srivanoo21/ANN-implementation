@@ -18,16 +18,30 @@ def training(config_path):
 
     model = create_model(LOSS_FUNCTION, OPTIMIZER, METRICS, NUM_CLASSES)
 
+    # Callbacks and Modelcheckpoint
+    logs_dir = config["logs"]["logs_dir"]
+    log_name = config["artifacts"]["log_name_1"]
+    log_dir = get_log_path(log_name, logs_dir)
+
+    PATIENCE = config["params"]["patience"]
+    CKPT_path = config["params"]["model_ckpt"]
+
+    tensorboard_cb = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
+    early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=PATIENCE, restore_best_weights=True)
+    checkpointing_cb = tf.keras.callbacks.ModelCheckpoint(CKPT_path, save_best_only=True)
+    CALLBACKS_LIST = [tensorboard_cb, early_stopping_cb, checkpointing_cb]
+
     EPOCHS = config["params"]["epochs"] 
     VALIDATION_SET = (X_valid, y_valid)
 
-    history = model.fit(X_train, y_train, epochs=EPOCHS,
-                        validation_data=VALIDATION_SET)
+    history = model.fit(X_train, y_train, epochs=EPOCHS, validation_data=VALIDATION_SET,
+                        callbacks=CALLBACKS_LIST)
 
     # Fetching the path for the model and the plot
     artifacts_dir = config["artifacts"]["artifacts_dir"]
     model_dir = config["artifacts"]["model_dir"]
     plot_dir = config["artifacts"]["plots_dir"]
+
 
     # saving the model
     model_dir_path = os.path.join(artifacts_dir, model_dir)
@@ -42,14 +56,15 @@ def training(config_path):
     df = pd.DataFrame(history.history).plot(figsize=(10, 7))
     save_plot(df, plot_name, plot_dir_path)
 
+    # saving the logs
+
+
 
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
-
     # In the run time itself without editing the code we can pass the arguments from the command line
     args.add_argument("--config", "-c", default="config.yaml")
-
     parsed_args = args.parse_args()
 
     training(config_path=parsed_args.config)
