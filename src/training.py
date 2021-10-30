@@ -27,9 +27,9 @@ def training(config_path):
     CKPT_path = config["params"]["model_ckpt"]
 
     tensorboard_cb = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
-    early_stopping_cb = tf.keras.callbacks.EarlyStopping(patience=PATIENCE, restore_best_weights=True)
+    early_stopping_cb = tf.keras.callbacks(patience=PATIENCE, restore_best_weights=True)
     checkpointing_cb = tf.keras.callbacks.ModelCheckpoint(CKPT_path, save_best_only=True)
-    CALLBACKS_LIST = [tensorboard_cb, early_stopping_cb, checkpointing_cb]
+    CALLBACKS_LIST = [tensorboard_cb, early_stopping_cb, checkpointing_cb]  
 
     EPOCHS = config["params"]["epochs"] 
     VALIDATION_SET = (X_valid, y_valid)
