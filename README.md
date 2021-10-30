@@ -16,3 +16,7 @@ conda activate ./envs
 ## Reference -
 
 * [Conda env commands](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#)
+
+## tensorboard:
+
+* --log_dir = logs_dir/tensorboard_logs/ for tensorboard details
