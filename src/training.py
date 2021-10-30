@@ -22,6 +22,7 @@ def training(config_path):
     # Callbacks and Modelcheckpoint
     CALLBACKS_LIST = get_callbacks(config, X_train)  
 
+    # Epochs and validation set
     EPOCHS = config["params"]["epochs"] 
     VALIDATION_SET = (X_valid, y_valid)
 
