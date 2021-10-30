@@ -20,16 +20,6 @@ def training(config_path):
     model = create_model(LOSS_FUNCTION, OPTIMIZER, METRICS, NUM_CLASSES)
 
     # Callbacks and Modelcheckpoint
-    logs_dir = config["logs"]["logs_dir"]
-    log_name = config["artifacts"]["log_name_1"]
-    log_dir = get_log_path(log_name, logs_dir)
-
-    PATIENCE = config["params"]["patience"]
-    CKPT_path = config["params"]["model_ckpt"]
-
-    tensorboard_cb = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
-    early_stopping_cb = tf.keras.callbacks(patience=PATIENCE, restore_best_weights=True)
-    checkpointing_cb = tf.keras.callbacks.ModelCheckpoint(CKPT_path, save_best_only=True)
     CALLBACKS_LIST = get_callbacks(config, X_train)  
 
     EPOCHS = config["params"]["epochs"] 
