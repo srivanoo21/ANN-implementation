@@ -1,6 +1,7 @@
 from src.utils.common import read_config
 from src.utils.data_mgmt import get_data
 from src.utils.model import create_model, save_model, save_plot
+from src.utils.callbacks import get_callbacks
 import argparse
 import os
 import pandas as pd
@@ -29,7 +30,7 @@ def training(config_path):
     tensorboard_cb = tf.keras.callbacks.TensorBoard(log_dir=log_dir)
     early_stopping_cb = tf.keras.callbacks(patience=PATIENCE, restore_best_weights=True)
     checkpointing_cb = tf.keras.callbacks.ModelCheckpoint(CKPT_path, save_best_only=True)
-    CALLBACKS_LIST = [tensorboard_cb, early_stopping_cb, checkpointing_cb]  
+    CALLBACKS_LIST = get_callbacks(config, X_train)  
 
     EPOCHS = config["params"]["epochs"] 
     VALIDATION_SET = (X_valid, y_valid)
